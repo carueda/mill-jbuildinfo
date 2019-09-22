@@ -26,7 +26,7 @@ trait JBuildInfo extends JavaModule {
         members
           .map {
             case (name, value) =>
-              s"""  public static final String ${name} = "${value}";"""
+              s"""  public static final String get${name.capitalize}() { return "${value}"; }"""
           }
           .mkString("\n")
       logger.debug(s"Generating class [${buildInfoPackageName.map(_ + ".").getOrElse("")}${buildInfoClassName}] with [${members.size}] members to [${outputFile}]")
@@ -35,8 +35,6 @@ trait JBuildInfo extends JavaModule {
         buildInfoPackageName.map(packageName => s"package ${packageName};\n\n").getOrElse("") +
         s"""|public class $buildInfoClassName {
             |$internalMembers
-            |
-            |  private $buildInfoClassName() {}
             |}""".stripMargin
       )
       (Seq(PathRef(outputFile)), PathRef(T.ctx().dest))

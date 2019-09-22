@@ -4,7 +4,7 @@ import mill.scalalib.publish._
 object jbuildinfo extends ScalaModule with PublishModule {
 
   def scalaVersion = "2.12.2"
-  def publishVersion = "0.1.1"
+  def publishVersion = "0.1.2"
 
   override def ivyDeps = {
     val millVersion = "0.5.1"
