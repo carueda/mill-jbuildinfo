@@ -1,7 +1,7 @@
 ## JBuildInfo
 
 This is a [mill](https://www.lihaoyi.com/mill/) module similar to 
-[BuildInfo](https://www.lihaoyi.com/mill/page/contrib-modules.html#buildinfo)
+[BuildInfo](https://com-lihaoyi.github.io/mill/mill/Plugin_BuildInfo.html)
 but for Java. 
 It will generate a Java class containing information from your build.
 
