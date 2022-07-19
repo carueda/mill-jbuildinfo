@@ -1,17 +1,26 @@
 import mill._, scalalib._
 import mill.scalalib.publish._
+import mill.scalalib.api.Util.scalaNativeBinaryVersion
 
-object jbuildinfo extends ScalaModule with PublishModule {
+val millVersions = Seq("0.10.0")
+val millBinaryVersions = millVersions.map(scalaNativeBinaryVersion)
 
-  def scalaVersion = "2.12.2"
+def millBinaryVersion(millVersion: String) = scalaNativeBinaryVersion(
+  millVersion
+)
+def millVersion(binaryVersion: String) =
+  millVersions.find(v => millBinaryVersion(v) == binaryVersion).get
+
+object jbuildinfo extends Cross[JBuildInfoModule](millBinaryVersions: _*)
+class JBuildInfoModule(val millBinaryVersion: String) extends ScalaModule with PublishModule {
+  def artifactName = s"jbuildinfo_mill$millBinaryVersion"
+  def millSourcePath = super.millSourcePath / os.up
+  def scalaVersion = "2.13.8"
   def publishVersion = "0.1.2"
 
-  override def ivyDeps = {
-    val millVersion = "0.5.1"
-    Agg(
-      ivy"com.lihaoyi::mill-scalalib:${millVersion}"
-    )
-  }
+  override def ivyDeps = Agg(
+    ivy"com.lihaoyi::mill-scalalib:${millVersion(millBinaryVersion)}"
+  )
 
   def pomSettings = PomSettings(
     description = "mill jbuildinfo",
