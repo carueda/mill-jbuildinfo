@@ -1,6 +1,8 @@
 import mill._, scalalib._
 import mill.scalalib.publish._
 import mill.scalalib.api.Util.scalaNativeBinaryVersion
+import $ivy.`de.tototec::de.tobiasroeser.mill.integrationtest::0.6.1`
+import de.tobiasroeser.mill.integrationtest._
 
 val millVersions = Seq("0.10.0")
 val millBinaryVersions = millVersions.map(scalaNativeBinaryVersion)
@@ -36,4 +38,14 @@ class JBuildInfoModule(val millBinaryVersion: String) extends ScalaModule with P
   override def scalacOptions = Seq(
     "-deprecation", "-feature", "-encoding", "utf8"
   )
+}
+
+object itest extends Cross[itestCross]("0.10.0", "0.10.7")
+class itestCross(millVersion: String) extends MillIntegrationTestModule {
+  override def millSourcePath = super.millSourcePath / os.up
+  def millTestVersion = millVersion
+  def pluginsUnderTest = Seq(
+    jbuildinfo(millBinaryVersion(millVersion))
+  )
+  def testBase = millSourcePath / "src"
 }

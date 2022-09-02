@@ -4,9 +4,8 @@ import mill.T
 import mill.api.{Logger, PathRef}
 import mill.scalalib.JavaModule
 
-/**
- * Adapted from `mill.contrib.buildinfo.BuildInfo`.
- */
+/** Adapted from `mill.contrib.buildinfo.BuildInfo`.
+  */
 trait JBuildInfo extends JavaModule {
 
   def buildInfoPackageName: Option[String] = None
@@ -24,16 +23,19 @@ trait JBuildInfo extends JavaModule {
       val outputFile = T.ctx().dest / s"$buildInfoClassName.java"
       val internalMembers =
         members
-          .map {
-            case (name, value) =>
-              s"""  public static final String get${name.capitalize}() { return "${value}"; }"""
+          .map { case (name, value) =>
+            s"""  public static final String get${name.capitalize}() { return "${value}"; }"""
           }
           .mkString("\n")
-      logger.debug(s"Generating class [${buildInfoPackageName.map(_ + ".").getOrElse("")}${buildInfoClassName}] with [${members.size}] members to [${outputFile}]")
+      logger.debug(
+        s"Generating class [${buildInfoPackageName.map(_ + ".").getOrElse("")}${buildInfoClassName}] with [${members.size}] members to [${outputFile}]"
+      )
       os.write(
         outputFile,
-        buildInfoPackageName.map(packageName => s"package ${packageName};\n\n").getOrElse("") +
-        s"""|public class $buildInfoClassName {
+        buildInfoPackageName
+          .map(packageName => s"package ${packageName};\n\n")
+          .getOrElse("") +
+          s"""|public class $buildInfoClassName {
             |$internalMembers
             |}""".stripMargin
       )
