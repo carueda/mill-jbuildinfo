@@ -18,7 +18,7 @@ class JBuildInfoModule(val millBinaryVersion: String) extends ScalaModule with P
   def artifactName = s"jbuildinfo_mill$millBinaryVersion"
   def millSourcePath = super.millSourcePath / os.up
   def scalaVersion = "2.13.8"
-  def publishVersion = "0.1.2"
+  def publishVersion = "0.2.0"
 
   override def ivyDeps = Agg(
     ivy"com.lihaoyi::mill-scalalib:${millVersion(millBinaryVersion)}"
