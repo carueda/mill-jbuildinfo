@@ -3,6 +3,8 @@ import mill.scalalib.publish._
 import mill.scalalib.api.Util.scalaNativeBinaryVersion
 import $ivy.`de.tototec::de.tobiasroeser.mill.integrationtest::0.6.1`
 import de.tobiasroeser.mill.integrationtest._
+import $ivy.`de.tototec::de.tobiasroeser.mill.vcs.version::0.2.0`
+import de.tobiasroeser.mill.vcs.version.VcsVersion
 
 val millVersions = Seq("0.10.0")
 val millBinaryVersions = millVersions.map(scalaNativeBinaryVersion)
@@ -18,7 +20,7 @@ class JBuildInfoModule(val millBinaryVersion: String) extends ScalaModule with P
   def artifactName = s"jbuildinfo_mill$millBinaryVersion"
   def millSourcePath = super.millSourcePath / os.up
   def scalaVersion = "2.13.8"
-  def publishVersion = "0.2.1"
+  def publishVersion = VcsVersion.vcsState().format()
 
   override def ivyDeps = Agg(
     ivy"com.lihaoyi::mill-scalalib:${millVersion(millBinaryVersion)}"
