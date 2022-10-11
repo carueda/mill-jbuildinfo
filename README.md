@@ -13,7 +13,7 @@ the desired information via the `buildInfoMembers` method:
 
 ```scala
 // build.sc
-import $ivy.`com.github.carueda::jbuildinfo:0.1.2`
+import $ivy.`com.github.carueda::jbuildinfo::0.2.1`
 import com.github.carueda.mill.JBuildInfo
 import mill.T
 
