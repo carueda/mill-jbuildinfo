@@ -6,7 +6,7 @@ import de.tobiasroeser.mill.integrationtest._
 import $ivy.`de.tototec::de.tobiasroeser.mill.vcs.version::0.2.0`
 import de.tobiasroeser.mill.vcs.version.VcsVersion
 
-val millVersions = Seq("0.10.0")
+val millVersions = Seq("0.10.0", "0.11.0-M1")
 val millBinaryVersions = millVersions.map(scalaNativeBinaryVersion)
 
 def millBinaryVersion(millVersion: String) = scalaNativeBinaryVersion(
@@ -19,7 +19,7 @@ object jbuildinfo extends Cross[JBuildInfoModule](millBinaryVersions: _*)
 class JBuildInfoModule(val millBinaryVersion: String) extends ScalaModule with PublishModule {
   def artifactName = s"jbuildinfo_mill$millBinaryVersion"
   def millSourcePath = super.millSourcePath / os.up
-  def scalaVersion = "2.13.8"
+  def scalaVersion = BuildInfo.scalaVersion
   def publishVersion = VcsVersion.vcsState().format()
 
   override def ivyDeps = Agg(
@@ -43,7 +43,7 @@ class JBuildInfoModule(val millBinaryVersion: String) extends ScalaModule with P
   )
 }
 
-object itest extends Cross[itestCross]("0.10.0", "0.10.7")
+object itest extends Cross[itestCross]("0.10.0", "0.10.10", "0.11.0-M1")
 class itestCross(millVersion: String) extends MillIntegrationTestModule {
   override def millSourcePath = super.millSourcePath / os.up
   def millTestVersion = millVersion
