@@ -6,7 +6,7 @@ import de.tobiasroeser.mill.integrationtest._
 import $ivy.`de.tototec::de.tobiasroeser.mill.vcs.version::0.2.0`
 import de.tobiasroeser.mill.vcs.version.VcsVersion
 
-val millVersions = Seq("0.10.0", "0.11.0-M1")
+val millVersions = Seq("0.10.0", "0.11.0-M6")
 val millBinaryVersions = millVersions.map(scalaNativeBinaryVersion)
 
 def millBinaryVersion(millVersion: String) = scalaNativeBinaryVersion(
@@ -43,7 +43,7 @@ class JBuildInfoModule(val millBinaryVersion: String) extends ScalaModule with P
   )
 }
 
-object itest extends Cross[itestCross]("0.10.0", "0.10.10", "0.11.0-M1")
+object itest extends Cross[itestCross]("0.10.0", "0.10.10", "0.11.0-M6")
 class itestCross(millVersion: String) extends MillIntegrationTestModule {
   override def millSourcePath = super.millSourcePath / os.up
   def millTestVersion = millVersion
